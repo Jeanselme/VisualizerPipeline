@@ -62,11 +62,14 @@ class Pipeline:
                 steps {dict} -- Dictionary of primitives
         """
         extracted_step = []
+        # Iterate over steps
         for step in steps:
             if "primitive" in step:
+                # Extracts name (only most meaningful part)
                 new_step = Step(step["primitive"]["python_path"].split('.')[3])
                 extracted_step.append(new_step)
                 
+                # If have arguments in previous step, update the link between node
                 if "arguments" in step:
                     for arg_type in step["arguments"]:
                         parent = step["arguments"][arg_type]["data"].split('.')
