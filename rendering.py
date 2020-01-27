@@ -1,6 +1,6 @@
 from graphviz import Digraph
 
-def buildGraph(node, graph = None, mainBranch = False):
+def buildGraph(node, graph = None, explored = []):
     """
         Creates a graph for the current node
     
@@ -15,13 +15,11 @@ def buildGraph(node, graph = None, mainBranch = False):
         graph = Digraph('png')
 
     graph.node(str(node.id), label=node.name)
-
     for arg_type, child in node.children:
         graph.edge(str(node.id), str(child.id), label=arg_type)
-        graph = buildGraph(child, graph, mainBranch)
-        if mainBranch:
-            # Main branch only look at the first child
-            break
+        if child.id not in explored:
+            explored.append(child.id)
+            graph = buildGraph(child, graph, explored)
 
     return apply_styles(graph)
 

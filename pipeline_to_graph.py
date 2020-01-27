@@ -28,13 +28,10 @@ class Step:
         if child is not None:
             self.children.append((arg_type, child))
 
-    def __str__(self, move = 0, mainBranch = False):
+    def __str__(self, move = 0):
         string = "| " * move + " + Step : {} \n".format(self.name)
         for _, child in self.children:
-            string += child.__str__(move + 1, mainBranch)
-            if mainBranch:
-                # Main branch only look at the first child
-                break
+            string += child.__str__(move + 1)
         return string
     
 class Pipeline:
