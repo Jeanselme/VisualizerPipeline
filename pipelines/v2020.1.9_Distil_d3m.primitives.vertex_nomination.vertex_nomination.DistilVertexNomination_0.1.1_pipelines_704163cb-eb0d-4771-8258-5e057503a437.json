@@ -1,0 +1,72 @@
+{
+    "id": "704163cb-eb0d-4771-8258-5e057503a437",
+    "schema": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json",
+    "created": "2020-01-17T03:07:35.021983Z",
+    "inputs": [
+        {
+            "name": "inputs"
+        }
+    ],
+    "outputs": [
+        {
+            "data": "steps.1.produce",
+            "name": "output"
+        }
+    ],
+    "steps": [
+        {
+            "type": "PRIMITIVE",
+            "primitive": {
+                "id": "79012210-2463-4f94-9da6-11bdc5a7e6c4",
+                "version": "0.1.2",
+                "python_path": "d3m.primitives.data_transformation.load_single_graph.DistilSingleGraphLoader",
+                "name": "Load single graph and dataframe into a parseable object"
+            },
+            "arguments": {
+                "inputs": {
+                    "type": "CONTAINER",
+                    "data": "inputs.0"
+                }
+            },
+            "outputs": [
+                {
+                    "id": "produce"
+                },
+                {
+                    "id": "produce_target"
+                }
+            ]
+        },
+        {
+            "type": "PRIMITIVE",
+            "primitive": {
+                "id": "0130828c-1ac0-47a9-a167-f05bae5a3146",
+                "version": "0.1.1",
+                "python_path": "d3m.primitives.vertex_nomination.vertex_nomination.DistilVertexNomination",
+                "name": "VertexNomination"
+            },
+            "arguments": {
+                "inputs": {
+                    "type": "CONTAINER",
+                    "data": "steps.0.produce"
+                },
+                "outputs": {
+                    "type": "CONTAINER",
+                    "data": "steps.0.produce_target"
+                }
+            },
+            "outputs": [
+                {
+                    "id": "produce"
+                }
+            ],
+            "hyperparams": {
+                "metric": {
+                    "type": "VALUE",
+                    "data": "accuracy"
+                }
+            }
+        }
+    ],
+    "digest": "2f620f4b23e3d32d04f306adf11000a31c34769981970d81dd6ac94b76f9ee01"
+}
