@@ -12,7 +12,7 @@ class Step:
     # Id of the given Node
     idNum = 0
 
-    def __init__(self, name):
+    def __init__(self, name, hyperparams):
         """     
             Arguments:
                 name {str} -- Name of the feature
@@ -20,6 +20,7 @@ class Step:
         """
 
         self.name = name
+        self.hyperparams = hyperparams
         self.children = []
         self.id = Step.idNum
         Step.idNum += 1
@@ -63,7 +64,8 @@ class Pipeline:
         for step in steps:
             if "primitive" in step:
                 # Extracts name (only most meaningful part)
-                new_step = Step(step["primitive"]["python_path"].split('.')[3])
+                hyperparams = step["hyperparams"] if "hyperparams" in step else "No hyperparams"
+                new_step = Step(step["primitive"]["python_path"].split('.')[3], hyperparams)
                 extracted_step.append(new_step)
                 
                 # If have arguments in previous step, update the link between node
@@ -79,4 +81,4 @@ class Pipeline:
         """
             Visualization of the dag
         """
-        return buildGraph(self.dag)
+        return buildGraph(self.dag, graph = None, explored = [])

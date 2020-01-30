@@ -1,4 +1,5 @@
-from graphviz import Digraph
+from graphviz import Digraph, escape
+import json
 
 def buildGraph(node, graph = None, explored = []):
     """
@@ -13,8 +14,7 @@ def buildGraph(node, graph = None, explored = []):
     """
     if graph is None:
         graph = Digraph('png')
-
-    graph.node(str(node.id), label=node.name)
+    graph.node(str(node.id), label="<<table cellborder='0'><tr><td title='{}' href=''>{}</td></tr></table>>".format(escape(str(json.dumps(node.hyperparams, indent=1, sort_keys=True))), node.name))
     for arg_type, child in node.children:
         graph.edge(str(node.id), str(child.id), label=arg_type)
         if child.id not in explored:
@@ -30,6 +30,7 @@ def apply_styles(graph):
             'shape': 'hexagon',
             'fontcolor': 'white',
             'color': 'black',
+            'pencolor': '#006699',
             'style': 'filled',
             'fillcolor': '#006699',
         },
