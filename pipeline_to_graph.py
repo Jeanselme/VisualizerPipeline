@@ -71,9 +71,13 @@ class Pipeline:
                 # If have arguments in previous step, update the link between node
                 if "arguments" in step:
                     for arg_type in step["arguments"]:
-                        parent = step["arguments"][arg_type]["data"].split('.')
-                        if parent[0] == "steps":
-                            extracted_step[int(parent[1])].addChild(new_step, arg_type)
+                        data = step["arguments"][arg_type]["data"]
+                        if not isinstance(data, list): 
+                            data = [data]
+                        for parent in data:
+                            parent = parent.split('.')
+                            if parent[0] == "steps":
+                                extracted_step[int(parent[1])].addChild(new_step, arg_type)
                         
         return extracted_step[0]
     
