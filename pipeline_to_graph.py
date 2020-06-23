@@ -59,7 +59,7 @@ class Pipeline:
             Arguments:
                 steps {dict} -- Dictionary of primitives
         """
-        original = Step('Original data', None)
+        original = Step('Original data', "D3M Format")
         extracted_step = []
         # Iterate over steps
         for step in steps:
